@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aperture &mdash; Image Gallery &amp; Slideshow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#f2ede2;
+  --void:#0c0b10;
+  --panel:#151319;
+  --line:rgba(242,237,226,.12);
+  --amber:#e2a23c;
+  --teal:#3f8f88;
+  --mute:#948f9c;
+  --font-d:'Fraunces',Georgia,serif;
+  --font-b:'Inter',system-ui,sans-serif;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="light"]){
+    --ink:#f2ede2; --void:#0c0b10; --panel:#151319; --mute:#948f9c;
+  }
+}
+:root[data-theme="dark"]{ --ink:#f2ede2; --void:#0c0b10; --panel:#151319; }
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;background:var(--void);color:var(--ink);
+  font-family:var(--font-b);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{width:min(980px,calc(100% - 48px));margin-inline:auto}
+
+header.top{padding:56px 0 20px}
+.kicker{font-size:.82rem;letter-spacing:.02em;color:var(--amber)}
+h1{
+  font-family:var(--font-d);font-weight:600;font-size:clamp(2.1rem,5vw,3.4rem);
+  margin:.3em 0 .25em;letter-spacing:-.01em;
+}
+.lede{max-width:56ch;color:var(--mute);font-size:1.02rem}
+
+section{padding:34px 0}
+h2{font-family:var(--font-d);font-weight:600;font-size:1.5rem;margin:0 0 6px}
+.section-note{color:var(--mute);font-size:.92rem;margin:0 0 22px}
+
+/* ---- Gallery grid ---- */
+.grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+}
+@media (max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+figure.thumb{
+  margin:0;position:relative;border-radius:6px;overflow:hidden;cursor:zoom-in;
+  aspect-ratio:4/5;border:1px solid var(--line);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+figure.thumb:hover,figure.thumb:focus-within{transform:translateY(-4px)}
+figure.thumb:focus-within{outline:2px solid var(--amber);outline-offset:2px}
+figure.thumb svg{display:block;width:100%;height:100%}
+figure.thumb figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:10px 12px;
+  font-size:.78rem;color:var(--ink);background:linear-gradient(0deg,rgba(0,0,0,.65),transparent);
+}
+figure.thumb button.zoom{
+  position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;cursor:zoom-in;padding:0;
+}
+
+/* ---- Lightbox ---- */
+.lightbox{
+  position:fixed;inset:0;background:rgba(6,5,8,.92);display:none;
+  align-items:center;justify-content:center;z-index:50;padding:5vh 5vw;
+}
+.lightbox.open{display:flex}
+.lightbox .stage{max-width:min(720px,90vw);width:100%}
+.lightbox .art{aspect-ratio:4/5;max-height:70vh;border-radius:8px;overflow:hidden;margin-inline:auto;border:1px solid var(--line)}
+.lightbox .art svg{width:100%;height:100%;display:block}
+.lightbox .cap{text-align:center;margin-top:14px;color:var(--mute);font-size:.9rem}
+.lightbox button.close{
+  position:absolute;top:max(18px,env(safe-area-inset-top,0px));right:18px;
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  background:var(--panel);color:var(--ink);font-size:1.1rem;cursor:pointer;
+}
+
+/* ---- Slideshow ---- */
+.slideshow{
+  position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);
+  aspect-ratio:16/8;background:var(--panel);
+}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease}
+.slide.active{opacity:1}
+.slide svg{width:100%;height:100%;display:block}
+.slide .cap{
+  position:absolute;left:20px;bottom:18px;color:var(--ink);
+  font-family:var(--font-d);font-size:1.1rem;text-shadow:0 2px 10px rgba(0,0,0,.6)
+}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:16px}
+.dots button{
+  width:8px;height:8px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;padding:0;cursor:pointer;
+}
+.dots button.active{background:var(--amber);border-color:var(--amber)}
+.nav-btn{
+  position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(12,11,16,.6);color:var(--ink);cursor:pointer;font-size:1rem;
+}
+.nav-btn.prev{left:14px}.nav-btn.next{right:14px}
+
+footer{padding:40px 0 60px;color:var(--mute);font-size:.85rem;border-top:1px solid var(--line);margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="kicker">Personal project</p>
+    <h1>Image gallery &amp; slideshow</h1>
+    <p class="lede">A thumbnail gallery that enlarges on click, and a slideshow that transitions between images on its own &mdash; built with plain HTML, CSS and a small amount of JavaScript.</p>
+  </header>
+
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <p class="section-note">Click any tile to open it full size.</p>
+    <div class="grid" id="galleryGrid"></div>
+  </section>
+
+  <section id="slideshow-section">
+    <h2>Slideshow</h2>
+    <p class="section-note">Advances automatically every four seconds, or use the arrows.</p>
+    <div class="slideshow" id="slideshow">
+      <button class="nav-btn prev" aria-label="Previous slide">&#8249;</button>
+      <button class="nav-btn next" aria-label="Next slide">&#8250;</button>
+    </div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <footer>An interactive front-end project &mdash; gallery with lightbox, plus an auto-advancing slideshow.</footer>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="close" id="lbClose" aria-label="Close">&times;</button>
+  <div class="stage">
+    <div class="art" id="lbArt"></div>
+    <p class="cap" id="lbCap"></p>
+  </div>
+</div>
+
+<script>
+// Each "photo" is drawn as an abstract SVG gradient scene rather than a stock image.
+const PHOTOS = [
+  { title: "Amber Dune",    from:"#e2a23c", to:"#5a3a1e", shape:"wave" },
+  { title: "Teal Horizon",  from:"#3f8f88", to:"#0c2b28", shape:"sun"  },
+  { title: "Violet Peaks",  from:"#8f6fd6", to:"#241a3a", shape:"peaks"},
+  { title: "Ember Field",   from:"#d6603f", to:"#2a1210", shape:"grid" },
+  { title: "Slate Bloom",   from:"#5c7d9b", to:"#141c26", shape:"circles" },
+  { title: "Copper Trail",  from:"#c98a4b", to:"#231409", shape:"lines" },
+  { title: "Moss Study",    from:"#5f8f5a", to:"#12200f", shape:"wave" },
+  { title: "Dust Signal",   from:"#b6975c", to:"#221c10", shape:"sun" },
+];
+
+function sceneSVG(p, id){
+  const gid = 'g' + id;
+  let inner = '';
+  if (p.shape === 'wave') inner = `<path d="M0,140 Q90,90 180,140 T360,140 V220 H0 Z" fill="rgba(255,255,255,.14)"/>`;
+  else if (p.shape === 'sun') inner = `<circle cx="180" cy="90" r="46" fill="rgba(255,255,255,.18)"/>`;
+  else if (p.shape === 'peaks') inner = `<path d="M0,220 L70,110 L120,170 L190,70 L260,160 L320,120 L360,220 Z" fill="rgba(255,255,255,.15)"/>`;
+  else if (p.shape === 'grid') inner = `<g stroke="rgba(255,255,255,.16)" stroke-width="2">${Array.from({length:6}).map((_,i)=>`<line x1="${i*60}" y1="0" x2="${i*60}" y2="220"/>`).join('')}</g>`;
+  else if (p.shape === 'circles') inner = `<g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="3">
+      <circle cx="120" cy="120" r="30"/><circle cx="120" cy="120" r="55"/><circle cx="120" cy="120" r="80"/></g>`;
+  else if (p.shape === 'lines') inner = `<g stroke="rgba(255,255,255,.18)" stroke-width="3">
+      <line x1="0" y1="180" x2="360" y2="60"/><line x1="0" y1="140" x2="360" y2="20"/><line x1="0" y1="220" x2="360" y2="100"/></g>`;
+  return `<svg viewBox="0 0 360 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${p.from}"/><stop offset="1" stop-color="${p.to}"/>
+    </linearGradient></defs>
+    <rect width="360" height="220" fill="url(#${gid})"/>${inner}
+  </svg>`;
+}
+
+const grid = document.getElementById('galleryGrid');
+PHOTOS.forEach((p, i) => {
+  const fig = document.createElement('figure');
+  fig.className = 'thumb';
+  fig.innerHTML = `${sceneSVG(p, 'thumb'+i)}<figcaption>${p.title}</figcaption><button class="zoom" data-i="${i}" aria-label="Enlarge ${p.title}"></button>`;
+  grid.appendChild(fig);
+});
+
+const lightbox = document.getElementById('lightbox');
+const lbArt = document.getElementById('lbArt');
+const lbCap = document.getElementById('lbCap');
+grid.addEventListener('click', e => {
+  const btn = e.target.closest('.zoom');
+  if (!btn) return;
+  const p = PHOTOS[+btn.dataset.i];
+  lbArt.innerHTML = sceneSVG(p, 'lb' + btn.dataset.i);
+  lbCap.textContent = p.title;
+  lightbox.classList.add('open');
+});
+document.getElementById('lbClose').addEventListener('click', () => lightbox.classList.remove('open'));
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+// ---- Slideshow ----
+const SLIDES = PHOTOS.slice(0, 5);
+const stage = document.getElementById('slideshow');
+const dotsWrap = document.getElementById('dots');
+SLIDES.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'slide' + (i === 0 ? ' active' : '');
+  div.innerHTML = `${sceneSVG(p, 'slide'+i)}<span class="cap">${p.title}</span>`;
+  stage.insertBefore(div, stage.querySelector('.nav-btn.next'));
+  const dot = document.createElement('button');
+  if (i === 0) dot.className = 'active';
+  dot.addEventListener('click', () => goTo(i));
+  dotsWrap.appendChild(dot);
+});
+
+let idx = 0, timer;
+function render(){
+  document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+  document.querySelectorAll('.dots button').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function goTo(i){ idx = (i + SLIDES.length) % SLIDES.length; render(); restart(); }
+function restart(){ clearInterval(timer); timer = setInterval(() => goTo(idx + 1), 4000); }
+stage.querySelector('.prev').addEventListener('click', () => goTo(idx - 1));
+stage.querySelector('.next').addEventListener('click', () => goTo(idx + 1));
+restart();
+</script>
+</body>
+</html>

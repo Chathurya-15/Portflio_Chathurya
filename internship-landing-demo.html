@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Web Developer Internship at Arclight Technologies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf3e0;
+  --ink:#191510;
+  --orange:#ef9b3f;
+  --blue:#4a86e8;
+  --green:#6fbf5e;
+  --mute:#7a7263;
+  --line:rgba(25,21,16,.14);
+  --font-d:'Space Grotesk',system-ui,sans-serif;
+  --font-b:'Inter',system-ui,sans-serif;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root[data-theme="dark"]{ --cream:#faf3e0; --ink:#191510; }
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font-b);line-height:1.6}
+.wrap{width:min(1040px,calc(100% - 48px));margin-inline:auto}
+a{color:inherit}
+
+/* ---- Brand bar ---- */
+.brandbar{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-d);font-weight:700;font-size:1.05rem}
+.brand .tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:13px solid var(--orange);transform:rotate(0deg)}
+.brand .tri:nth-of-type(2){border-bottom-color:var(--blue);transform:translate(-4px,3px) rotate(120deg)}
+.brand .tri:nth-of-type(3){border-bottom-color:var(--green);transform:translate(-8px,-1px) rotate(240deg)}
+.brand-tris{display:flex}
+.cta-nav{
+  font-size:.9rem;font-weight:600;text-decoration:none;padding:.6rem 1.1rem;border-radius:999px;
+  border:1.5px solid var(--ink);
+}
+
+/* ---- Hero ---- */
+.hero{padding:50px 0 60px;border-bottom:1px solid var(--line)}
+h1{
+  font-family:var(--font-d);font-weight:700;letter-spacing:-.01em;
+  font-size:clamp(2rem,5vw,3.5rem);line-height:1.08;margin:0 0 .5em;max-width:14ch;
+}
+.hero .intro{max-width:56ch;font-size:1.08rem;color:#3a3327;margin:0 0 1.8em}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.5rem;background:var(--ink);color:var(--cream);
+  padding:.95rem 1.7rem;border-radius:8px;font-weight:600;text-decoration:none;font-size:.98rem;
+  transition:transform .18s ease;
+}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-secondary{
+  display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+  font-size:.98rem;border-bottom:2px solid var(--orange);padding-bottom:2px;
+}
+.meta-row{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px;font-size:.88rem;color:var(--mute)}
+.meta-row b{color:var(--ink);display:block;font-family:var(--font-d);font-size:1.3rem;font-weight:700}
+
+/* ---- Highlights ---- */
+.highlights{padding:64px 0;border-bottom:1px solid var(--line)}
+.section-head{max-width:52ch;margin-bottom:34px}
+.section-head p{color:var(--mute);margin-top:.4em}
+.hl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media (max-width:800px){.hl-grid{grid-template-columns:1fr}}
+.hl-card{
+  padding:26px 22px;border:1.5px solid var(--ink);border-radius:14px;background:#fffaf0;
+  position:relative;
+}
+.hl-card .mark{width:34px;height:34px;border-radius:9px;margin-bottom:16px}
+.hl-card:nth-child(1) .mark{background:var(--orange)}
+.hl-card:nth-child(2) .mark{background:var(--blue)}
+.hl-card:nth-child(3) .mark{background:var(--green)}
+.hl-card h3{font-family:var(--font-d);font-size:1.15rem;margin:0 0 8px}
+.hl-card p{margin:0;color:#3a3327;font-size:.95rem}
+
+/* ---- Qualifications ---- */
+.quals{padding:64px 0;border-bottom:1px solid var(--line)}
+.quals-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media (max-width:800px){.quals-grid{grid-template-columns:1fr}}
+.quals ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.quals li{display:flex;gap:12px;font-size:.98rem;align-items:flex-start}
+.quals li .chk{flex:none;width:20px;height:20px;border-radius:5px;border:1.5px solid var(--ink);margin-top:2px}
+.quals li:nth-child(3n+1) .chk{background:var(--orange);border-color:var(--orange)}
+.quals li:nth-child(3n+2) .chk{background:var(--blue);border-color:var(--blue)}
+.quals li:nth-child(3n) .chk{background:var(--green);border-color:var(--green)}
+
+/* ---- CTA band ---- */
+.cta-band{padding:70px 0;text-align:center}
+.cta-band h2{font-family:var(--font-d);font-size:clamp(1.7rem,4vw,2.6rem);max-width:20ch;margin:0 auto .3em}
+.cta-band p{color:var(--mute);margin:0 auto 28px;max-width:46ch}
+
+/* ---- Footer ---- */
+footer{border-top:1px solid var(--line);padding:34px 0 44px}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.foot-col h4{font-family:var(--font-d);font-size:.95rem;margin:0 0 10px}
+.foot-col p, .foot-col a{display:block;color:var(--mute);text-decoration:none;font-size:.92rem;margin:4px 0}
+.foot-col a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar">
+    <div class="brand">
+      <span class="brand-tris"><span class="tri"></span><span class="tri"></span><span class="tri"></span></span>
+      Arclight Technologies
+    </div>
+    <a class="cta-nav" href="#apply">Apply now</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Web Developer Internship Opportunities at Arclight Technologies</h1>
+    <p class="intro">A hands-on, project-based internship where you'll build real front-end and full-stack work, get feedback from working developers, and finish with projects you can actually show off &mdash; not just a certificate.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" id="apply" href="#quals">Apply now &rarr;</a>
+      <a class="btn-secondary" href="#highlights">Learn more</a>
+    </div>
+    <div class="meta-row">
+      <div><b>4&ndash;8 wks</b>Program duration</div>
+      <div><b>Remote</b>Work format</div>
+      <div><b>Hands-on</b>Project-based curriculum</div>
+    </div>
+  </div>
+</section>
+
+<section class="highlights" id="highlights">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 style="font-family:var(--font-d);font-size:1.8rem;margin:0">Why intern with us</h2>
+      <p>Built around doing, not watching.</p>
+    </div>
+    <div class="hl-grid">
+      <div class="hl-card"><div class="mark"></div><h3>Real-world experience</h3><p>Work through genuine front-end projects &mdash; from layout fundamentals to responsive frameworks &mdash; the same way our engineering team does.</p></div>
+      <div class="hl-card"><div class="mark"></div><h3>Direct mentorship</h3><p>Get your code reviewed, ask questions, and learn the habits that separate a working demo from production-ready code.</p></div>
+      <div class="hl-card"><div class="mark"></div><h3>A portfolio, not just a certificate</h3><p>Leave with finished, presentable projects for your resume and LinkedIn &mdash; plus a completion certificate.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="quals" id="quals">
+  <div class="wrap">
+    <div class="quals-grid">
+      <div>
+        <h2 style="font-family:var(--font-d);font-size:1.8rem;margin:0 0 .3em">What we're looking for</h2>
+        <p style="color:var(--mute);max-width:40ch">No prior internship experience required &mdash; just the basics and a willingness to build.</p>
+      </div>
+      <ul>
+        <li><span class="chk"></span>Working knowledge of HTML and CSS</li>
+        <li><span class="chk"></span>Basic JavaScript (variables, functions, events)</li>
+        <li><span class="chk"></span>Familiarity with at least one front-end framework (Bootstrap, Bulma, or similar)</li>
+        <li><span class="chk"></span>Comfortable using Git for version control</li>
+        <li><span class="chk"></span>Curiosity about responsive, accessible design</li>
+        <li><span class="chk"></span>Reliable self-study habits &mdash; this program is project-driven and self-paced</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Ready to build something real?</h2>
+    <p>Applications are reviewed on a rolling basis. Pick your track, build the projects, and show us what you can do.</p>
+    <a class="btn-primary" href="#top">Apply now &rarr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Arclight Technologies</h4>
+        <p>Building the web, one intern at a time.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="mailto:careers@arclighttech.dev">careers@arclighttech.dev</a>
+        <a href="#" target="_blank" rel="noopener">www.arclighttech.dev</a>
+      </div>
+      <div class="foot-col">
+        <h4>Elsewhere</h4>
+        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
